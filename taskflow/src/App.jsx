@@ -113,9 +113,12 @@ function usePersisted(key, fallback) {
 // ─── APP ─────────────────────────────────────────────────────────────────────
 export default function App() {
   const [tab, setTab]             = useState("home");
-  const [tasks, setTasks]         = usePersisted("tf:tasks", INIT_TASKS);
-  const [scheduledSlots, setScheduledSlots] = usePersisted("tf:slots", {});
-  const [relevantLabels, setRelevantLabels] = usePersisted("tf:labels", ["עבודה","בריאות","פיננסי"]);
+  const [tasksRaw, setTasks]      = usePersisted("tf:tasks", INIT_TASKS);
+  const tasks = Array.isArray(tasksRaw) ? tasksRaw : INIT_TASKS;
+  const [slotsRaw, setScheduledSlots] = usePersisted("tf:slots", {});
+  const scheduledSlots = (slotsRaw && typeof slotsRaw === "object") ? slotsRaw : {};
+  const [labelsRaw, setRelevantLabels] = usePersisted("tf:labels", ["עבודה","בריאות","פיננסי"]);
+  const relevantLabels = Array.isArray(labelsRaw) ? labelsRaw : ["עבודה","בריאות","פיננסי"];
   const [sheet, setSheet]         = useState(null);
   const [filterArea, setFilterArea] = useState("all");
   const [toast, setToast]         = useState(null);
